@@ -1,5 +1,8 @@
 ![Maturity level-0](https://img.shields.io/badge/Maturity%20Level-ML--0-red)
 
+This repository corresponds to the article'Siamese Neural Networks for Regression: Similarity-Based Pairing and Uncertainty Quantification'. The project consists of 4 models: Multilayer perceptron model with single input (MLP-FP) and paired input (MLP-deltaFP), [Chemformer model](https://github.com/MolecularAI/Chemformer), and Siamese model with Chemformer strcuture (Cheformer-snn)
+
+
 MLP-deltaFP: 
 
 for exaustive pairs:
