@@ -1,0 +1,41 @@
+MLP-deltaFP: 
+
+for exaustive pairs:
+
+`python mlp.py -s lipo_all.yml -st 0 -f lipo`  
+
+for similarity-based pairs:
+
+`python mlp.py -s lipo_top1.yml -st 1 -f lipo`  
+
+MLP-FP:
+
+`python mlp.py -s lipo_mlp.yml`
+
+Cheformer-snn:
+
+for dropout 0.0:
+
+`python finetuenRegr_k_fold.py --name lipo --data_path lipo/ --drp 0.0`   
+
+we need to run dropout = [0.0,0.05,0.1,0.17]
+
+Chemformer:
+
+`python finetuneRegr_k_fold.py --name lipo --data_path lipo/` 
+
+generate plots:
+
+`python confidence_plot.py` 
+
+`python dropout_plot.py` 
+
+`python plot_n_shot.py` 
+
+`python shot_plot.py` 
+
+
+
+
+
+            
