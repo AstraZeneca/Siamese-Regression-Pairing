@@ -244,7 +244,7 @@ def train_classic(k, figpath_classic, train_set, test_set, lr, patience, factor,
     plt.xticks(np.arange(0,epochs, 10))
     plt.xlabel('Epochs')
 
-    plt.savefig(figpath_classic + k + 'train_losses_single.png')
+    plt.savefig(figpath_classic + k + 'train_losses_single.svg')
     plt.clf()
     #print(outputs)
     print('--- preds vs truth ---')
@@ -255,7 +255,7 @@ def train_classic(k, figpath_classic, train_set, test_set, lr, patience, factor,
     plt.axline((0, 0), (1, 1), color='k')
     plt.xlabel('Experiment ' + file_name)
     plt.ylabel('Predicted ' + file_name)
-    plt.savefig(figpath_classic + k + 'val_actualvspred.png')
+    plt.savefig(figpath_classic + k + 'val_actualvspred.svg')
     plt.clf()
     print('finish val actual vs pred plot')
 

@@ -3,7 +3,7 @@ from rdkit import Chem
 
 from rdkit import DataStructs
 import matplotlib.pyplot as plt
-import molvs as mv
+
 from rdkit.Chem import RDKFingerprint
 import numpy as np
 from tqdm import tqdm

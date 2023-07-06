@@ -19,7 +19,7 @@ def predict(plots_path, tables_path, cutoff_ls, shot_ls, file_name):
     df = pd.DataFrame()
     for i in tqdm(range(10)):
         predict_ob = p.predict_process(tables_path + str(i) + '.csv')
-        if i == 0 and file_name == 'lipo':
+        if i == 0:
             predict_ob.plot(0, i)
         for j in cutoff_ls:
             RMSE0, miss0, r20 = predict_ob.process_loss(cutoff = j, shots = 0, small =False)
@@ -109,7 +109,7 @@ def predict(plots_path, tables_path, cutoff_ls, shot_ls, file_name):
     plt.xlabel('shots')
     plt.legend(loc = 'upper right')
     plt.tight_layout()
-    plt.savefig(plots_path + 'few_shot_plot_relative.png')
+    plt.savefig(plots_path + 'few_shot_plot_relative.svg')
     plt.clf()
 
 

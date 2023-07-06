@@ -51,5 +51,5 @@ plt.xticks([r + barWidth/2 for r in range(len(top_1))],
  
 plt.legend(loc = 2, fontsize=11)
 plt.tight_layout()
-plt.savefig('../results/MLP_delta/pairing_strat.png')
+plt.savefig('../results/MLP_delta/pairing_strat.svg')
 plt.show()

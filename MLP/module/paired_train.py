@@ -71,9 +71,15 @@ def plot(train_set,figpath , k):
     nega = [-1 * x for x in averged_error_per_bin]
     ax.plot(intervals, averged_error_per_bin, 'r--', label = r'2$\sigma$')
     ax.plot(intervals, nega, 'r--')
-    plt.ylim([-5,5])
-    plt.xlabel('Tanimoto Similarity', fontsize = 15)
-    plt.ylabel(r'Exp. $\Delta$LogD', fontsize = 15)
+    # setting for freesolv
+    plt.ylim([-15,17])
+
+
+    # setting for esol
+    # plt.ylim([-7,7])
+    # plt.yticks(np.arange(-6,7,3))
+    #plt.xlabel('Tanimoto Similarity', fontsize = 15)
+    plt.ylabel(r'Exp. $\Delta$free energy', fontsize = 15)
     divider = make_axes_locatable(ax)
     ax_histx = divider.append_axes("top", '20%', pad="3%", sharex=ax)
     ax_histy = divider.append_axes("right", '20%', pad="3%", sharey=ax)
@@ -81,14 +87,18 @@ def plot(train_set,figpath , k):
     ax_histy.tick_params(axis="y", labelleft=False, direction='in')
     ax_histx.hist(train_set['Similarity'], bins=50,density=True, orientation='vertical') #,zorder=0)
     ax_histy.hist(train_set['prop'], bins=50,density=True, orientation='horizontal') #,zorder=0)
-    #ax_histx.set_axis_off()
-    #ax_histy.set_axis_off()
-    ax.xaxis.set_ticks(np.arange(0, 1.1, 0.2))
+
+    ax_histy.set_xticks(np.arange(0, 0.31, 0.3))
+
+
+
     ax.set_xlim(-0.1, 1.1)
+    ax.xaxis.set_ticks(np.arange(0, 1.1, 0.2), labels = [])
+    
 
     ax.legend()
     plt.tight_layout()
-    plt.savefig(figpath + k + 'delta_vs_sim.png')
+    plt.savefig(figpath + k + 'delta_vs_sim.svg')
     plt.clf()
 
 def cal_sd(df1, sim1, sim2):
@@ -134,7 +144,7 @@ class paired_trainer():
             nn.Linear(2048, 128),
             nn.ReLU(),
             #nn.Dropout(0.5),
-            nn.Linear(128, 1, bias = False)
+            nn.Linear(128, 1, bias = True)
         )
         if torch.cuda.is_available():
             self.model = self.model.cuda()
@@ -142,7 +152,7 @@ class paired_trainer():
 
     def train(self, k, batch_size, figpath):
         k = str(k)
-        if self.top == 1 and self.file_name == 'lipo':
+        if self.top == 1:
             plot(self.train_pair,figpath, k)
         train_set = Dataset(self.train_pair, self.train_fp, self.train_fp)
         val_set = Dataset(self.val_pair, self.val_fp, self.val_fp)
@@ -166,7 +176,7 @@ class paired_trainer():
         plt.plot(valid_loss)
 
         plt.xticks(np.arange(0,epochs, 10))
-        plt.savefig(figpath +self.file_name + k +'train_losses_delta.png')
+        plt.savefig(figpath +self.file_name + k +'train_losses_delta.svg')
         plt.clf()
 
 

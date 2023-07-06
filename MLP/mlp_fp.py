@@ -14,7 +14,6 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 import sys
 import numpy
-from torchvision import models
 import sys
 from scipy.stats import norm
 from matplotlib import pylab

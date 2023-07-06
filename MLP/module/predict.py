@@ -139,7 +139,7 @@ class predict_process():
         #             colors="grey",
         #             linewidth=1.5)
         ax.set_xlabel('Tanimoto Similarity')
-        ax.set_xlim(0,1.05)
+        ax.set_xlim(-0.1, 1.1)
         divider = make_axes_locatable(ax)
         ax.set_ylabel('Prediction Error')
         ax_histx = divider.append_axes("top", '20%', pad="3%", sharex=ax)
@@ -149,26 +149,40 @@ class predict_process():
         ax_histx.hist(df['sim'], bins=50,density=True, orientation='vertical') #,zorder=0)
         ax_histy.hist(err, bins=50,density=True, orientation='horizontal') #,zorder=0)
         density_scatter( np.array(sim), np.array(err),  s = 1, bins = [30,30], ax = ax )
+        #  settings for freesolv
         ax.xaxis.set_ticks(np.arange(0, 1.1, 0.2))
         ax.set_xlim(-0.1, 1.1)        
-        ax.yaxis.set_ticks(np.arange(-5, 11, 5))
-        ax.set_ylim(-7, 12)
-        plt.ylabel('Prediction Error')
+        ax.yaxis.set_ticks(np.arange(-20, 18, 10))
+        ax.set_ylim(-22, 18)
+
+        # settings for esol
+        # ax.xaxis.set_ticks(np.arange(0, 1.1, 0.2))
+        # ax_histy.set_xticks(np.arange(0, 0.31, 0.3))
+        # ax.yaxis.set_ticks(np.arange(-8, 8, 4))
+
         plt.tight_layout()
-        plt.savefig('../results/MLP_delta/error_vs_sim_density.png')
+        plt.savefig('../results/MLP_delta/freesolv_error_vs_sim_density.svg')
         plt.clf()     
 
 def cal_sd(df1, sim1, sim2):
     df = df1[(df1['sim'] >= sim1) & (df1['sim'] <= sim2)]
-    sd = []
     df2 = df.drop_duplicates(subset='comp1')
-    ID = list(range(len(df2)))
-    max_ID = max(ID)
-    for a in tqdm(range(0, max_ID+1, 1)):
-        slc0 = df[df['ID1'] == a]
-        slc0.reset_index(drop=True, inplace=True)
-        sd_prop0 = slc0['pred'].std()
-        sd.append(sd_prop0*2)
-    sd = [x for x in sd if not math.isnan(x)]
-    av = mean(sd)
-    return av
+    if df.empty:
+        print('=======================================================')
+        return np.nan
+    else:
+        ID = list(df2['ID1'])
+        sd = []
+        for a in ID:
+            slc0 = df[df['ID1'] == a]
+            if slc0.empty:
+                print(f'no ID  = {a} exists')
+            slc0.reset_index(drop=True, inplace=True)
+            sd_prop0 = slc0['pred'].std()
+            sd.append(sd_prop0*2)
+        sd = [x for x in sd if not math.isnan(x)]
+        if len(sd) == 0:
+            return np.nan
+        else:
+            av = mean(sd)
+            return av

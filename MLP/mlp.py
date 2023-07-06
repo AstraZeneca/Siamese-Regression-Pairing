@@ -22,6 +22,14 @@ from statistics import mean
 import module.paired_train as pt
 import module.predict_fold as p
 import yaml
+import timeit
+
+
+
+
+
+
+
 # def parse_args():
 #     """Parses arguments from cmd"""
 #     parser = argparse.ArgumentParser(description="Preprocess: encode property change and build vocabulary")
@@ -104,6 +112,9 @@ if __name__ == "__main__":
     args = parse_args()
     file_name = args.file_name
     strategy = args.strat
+
+
+
     outpath = '../results/MLP_delta/top ' + str(strategy) + '/'
     figpath = outpath + file_name + '/'
     tables_path = figpath + 'tables/'
@@ -123,6 +134,8 @@ if __name__ == "__main__":
     df = df.sample(frac=1).reset_index(drop=True)
     k_folds = 10
     skf = KFold(n_splits = k_folds, shuffle = False)
+    
+    start = timeit.default_timer()
     for k, (k_train, k_val) in enumerate(skf.split(df.iloc[:,:])):
         # Generate k-fold
         k_train = df.iloc[k_train, :]
@@ -157,6 +170,31 @@ if __name__ == "__main__":
     cutoff = [0,0.3,0.35,0.4,0.45,0.5]
     shots = list(range(1,21))
     p.predict(plots_path, tables_path, cutoff, shots, args.file_name)
+    stop = timeit.default_timer()
+    print('Time: ', stop - start)  
+
+    if strategy == 1:
+        st = 'exhaustive'
+    else:
+        st = 'similarity-based'
+
+    new_row = {'file_name': file_name, 'strategy': st,'time': stop}
+
+
+
+
+    # Write new row to CSV file
+    if os.path.isfile('time_comparison.csv'):
+        # Append new row to existing file
+        df = pd.read_csv('time_comparison.csv')
+        df = df.append(new_row, ignore_index=True)
+    else:
+        # Create new file with header and new row
+        df = pd.DataFrame(columns=['file_name', 'strategy', 'time'])
+        df = df.append(new_row, ignore_index=True)
+
+    # Write DataFrame to CSV file
+    df.to_csv('time_comparison.csv', index=False)
 
 
 
