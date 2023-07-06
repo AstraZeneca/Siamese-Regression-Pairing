@@ -1,0 +1,55 @@
+Building tokeniser...
+Finished tokeniser.
+Reading dataset...
+  0%|          | 0/10 [00:00<?, ?it/s]GPU available: True, used: True
+TPU available: None, using: 0 TPU cores
+Set SLURM handle signals.
+
+  | Name       | Type               | Params
+--------------------------------------------------
+0 | premodel   | EncoderOfBARTModel | 19.2 M
+1 | drpmem     | Dropout            | 0     
+2 | ln         | LayerNorm          | 1.0 K 
+3 | hidden_fc  | Linear             | 525 K 
+4 | drp        | Dropout            | 0     
+5 | predict_fc | Linear             | 1.0 K 
+6 | loss_fn    | MSELoss            | 0     
+--------------------------------------------------
+19.7 M    Trainable params
+0         Non-trainable params
+19.7 M    Total params
+78.842    Total estimated model params size (MB)
+k split
+Finished dataset.
+Building data module...
+Using a batch size of 32.
+Augmenting the SMILES strings.
+Finished datamodule.
+Train steps: 2400
+Loading model...
+Finished model.
+Building trainer...
+Finished trainer.
+Fitting data module to trainer
+Saving latest checkpoint...
+Finished training.
+Predict results for  QSAR
+Using a batch size of 64.
+Augmenting the SMILES strings.
+Finished results.
+save train test pair result
+Generating test-train compound pairs
+bypassing sigterm
+bypassing sigterm
+bypassing sigterm
+bypassing sigterm
+bypassing sigterm
+bypassing sigterm
+bypassing sigterm
+bypassing sigterm
+bypassing sigterm
+bypassing sigterm
+bypassing sigterm
+bypassing sigterm
+bypassing sigterm
+slurmstepd: error: *** JOB 23863060 ON seskscpg037 CANCELLED AT 2022-06-09T19:44:42 ***
